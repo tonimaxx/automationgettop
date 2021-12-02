@@ -63,7 +63,7 @@ class Header(Page):
         return product_categories, product_links, product_incomplete
 
     def get_browse_menu_categories(self):
-        
+
         product_links = {}
         product_incomplete = []
         product_categories = {}

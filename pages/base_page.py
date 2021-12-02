@@ -1,5 +1,6 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class Page:
@@ -15,6 +16,12 @@ class Page:
 
     def click(self, *locator):
         self.driver.find_element(*locator).click()
+
+    def hover_link_text(self, link_text):
+        element = self.driver.find_element_by_link_text(link_text)
+        action = ActionChains(self.driver)
+        action.move_to_element(element)
+        action.perform()
 
     def find_element(self, *locator):
         return self.driver.find_element(*locator)

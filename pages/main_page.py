@@ -14,3 +14,4 @@ class MainPage(Page):
     def open_page(self, end_url=''):
         self.open_page(end_url)
 
+
