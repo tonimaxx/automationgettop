@@ -2,7 +2,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
-
 class Page:
 
     ROOT_URL = 'https://gettop.us/'
@@ -35,11 +34,9 @@ class Page:
         e.send_keys(text)
 
     def open_page(self, end_url=''):
-        # print(f'{self.base_url}{end_url}')
         self.driver.get(f'{self.base_url}{end_url}')
 
     def open_category_page(self, end_url=''):
-        # print(f'{self.PRODUCT_CATEGORY_URL}{end_url}')
         self.driver.get(f'{self.base_url}{end_url}')
 
     def wait_for_element_click(self, *locator):
@@ -60,7 +57,9 @@ class Page:
         assert query in self.driver.current_url, f'{query} not in {self.driver.current_url}'
 
     def verify_title_contains(self, expected_text):
-
         element = WebDriverWait(self.driver, 10).until(
             EC.title_contains(expected_text), message=f'{expected_text} not in title'
         )
+
+    def go_back(self):
+        self.driver.back()

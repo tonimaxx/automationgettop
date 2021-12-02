@@ -77,7 +77,7 @@ def verify_all_categories(context):
         for a in test_categories:
             results[a] = context.app.header.verify_breadcrumb(a)
 
-    # Collecting results
+    # Collects results
     for x, y in results.items():
         if not y:
             error_results.append(x)
