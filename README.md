@@ -6,16 +6,16 @@ Add automation script for TMTN-8
 https://jobeasyai.atlassian.net/browse/TMTN-8
 File : gettop_menu.feature
 
-User can hover over Mac and see correct menu options
-User can hover over iPhone and see correct menu options
-User can hover over iPad and see correct menu options
-User can hover over Watch and see correct menu options
-User can hover over Accessories and see correct menu options
-User can select Mac product from top menu and correct page opens
-User can select iPhone product from top menu and correct page opens
-User can select iPad product from top menu and correct page opens
-User can select Watch product from top menu and correct page opens
-User can select Accessories product from top menu and correct page opens
+- User can hover over Mac and see correct menu options
+- User can hover over iPhone and see correct menu options
+- User can hover over iPad and see correct menu options
+- User can hover over Watch and see correct menu options
+- User can hover over Accessories and see correct menu options
+- User can select Mac product from top menu and correct page opens
+- User can select iPhone product from top menu and correct page opens
+- User can select iPad product from top menu and correct page opens
+- User can select Watch product from top menu and correct page opens
+- User can select Accessories product from top menu and correct page opens
 
 NOV 28, 2021
 
