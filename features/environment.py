@@ -2,11 +2,23 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from app.application import Application
 chrome_options = webdriver.ChromeOptions()
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+
 
 # Begin Test Configuration
+
+# Note : browser now support "chrome", "firefox"
+TEST_ENVIRONMENT = {
+    "browser": "firefox",
+    "headless": True
+}
+
+print(f"{'Headless' if TEST_ENVIRONMENT['headless'] else 'Normal'} {TEST_ENVIRONMENT['browser']} initialization")
+
 disable_images = True
 disable_javascript = False
 test_resolution = "QHD"
+
 # End Configuration
 # Do not change below this line
 
@@ -28,30 +40,49 @@ browser_resolution = screen_resolution[test_resolution]
 browser_width = browser_resolution.split("x")[0]
 browser_height = browser_resolution.split("x")[1]
 
-chrome_prefs = {
-    "profile.default_content_setting_values": {
-        "images": 2 if disable_images else 0,
-        "javascript": 2 if disable_javascript else 0
-    }
-}
-chrome_options.experimental_options["prefs"] = chrome_prefs
-
-# chrome_options.add_argument("--start-maximized")
-# chrome_options.add_argument("--kiosk")
-
 # End Initialization
 
 def browser_init(context):
     """
     :param context: Behave context
     """
-    context.driver = webdriver.Chrome(
-        executable_path='./chromedriver',
-        chrome_options=chrome_options,
-    )
+
+    if TEST_ENVIRONMENT["browser"] == 'safari':
+        pass
+    elif TEST_ENVIRONMENT["browser"] == 'edge':
+        pass
+    elif TEST_ENVIRONMENT["browser"] == 'firefox':
+        firefox_options = FirefoxOptions()
+        if TEST_ENVIRONMENT["headless"]:
+            firefox_options.add_argument("--headless")
+        context.driver = webdriver.Firefox(
+            executable_path='geckodriver',
+            options=firefox_options
+        )
+    else:
+        # Chrome (Default)
+        chrome_prefs = {
+            "profile.default_content_setting_values": {
+                "images": 2 if disable_images else 0,
+                "javascript": 2 if disable_javascript else 0
+            }
+        }
+        chrome_options.experimental_options["prefs"] = chrome_prefs
+
+        # chrome_options.add_argument("--start-maximized")
+        # chrome_options.add_argument("--kiosk")
+
+        if TEST_ENVIRONMENT["headless"]:
+            chrome_options.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])
+            chrome_options.add_argument('headless')
+            chrome_options.add_argument('window-size=0x0')
+
+        context.driver = webdriver.Chrome(
+            executable_path='./chromedriver',
+            chrome_options=chrome_options,
+        )
 
     # context.browser = webdriver.Safari()
-    # context.browser = webdriver.Firefox()
 
     context.driver.set_window_size(browser_width, browser_height)
     context.driver.implicitly_wait(4)
