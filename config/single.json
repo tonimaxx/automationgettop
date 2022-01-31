@@ -1,0 +1,14 @@
+{
+  "user": "printaninnattaka_NQLKzv",
+  "key": "pAMz6MjxF5oe32suyU5s",
+
+  "capabilities": {
+    "build": "behave-browserstack",
+    "name": "potterybarn_test",
+    "browserstack.debug": true
+  },
+
+  "environments": [{
+    "browser": "chrome"
+  }]
+}

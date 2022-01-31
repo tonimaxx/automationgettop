@@ -1,3 +1,4 @@
+from threading import Thread
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from app.application import Application
@@ -7,17 +8,33 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 # Begin Test Configuration
 
+# BrowserStack Configuration
+caps=[{
+      'os_version': '11',
+      'os': 'Windows',
+      'browser': 'chrome',
+      'browser_version': '96.0',
+      'name': 'Parallel Test1',
+      'build': 'browserstack-build-1'
+      }
+]
+
+mobile_emulation = {
+   "deviceMetrics": { "width": 360, "height": 640, "pixelRatio": 3.0 },
+   "userAgent": "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19" }
+
 # Note : browser now support "chrome", "firefox"
 TEST_ENVIRONMENT = {
-    "browser": "firefox",
-    "headless": True
+    "browser": "chrome",
+    "headless": False,
+    "mobile": False
 }
 
 print(f"{'Headless' if TEST_ENVIRONMENT['headless'] else 'Normal'} {TEST_ENVIRONMENT['browser']} initialization")
 
-disable_images = True
+disable_images = False
 disable_javascript = False
-test_resolution = "QHD"
+test_resolution = "FHD"
 
 # End Configuration
 # Do not change below this line
@@ -77,6 +94,9 @@ def browser_init(context):
             chrome_options.add_argument('headless')
             chrome_options.add_argument('window-size=0x0')
 
+        if TEST_ENVIRONMENT["mobile"]:
+            chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+
         context.driver = webdriver.Chrome(
             executable_path='./chromedriver',
             chrome_options=chrome_options,
@@ -85,12 +105,15 @@ def browser_init(context):
     # context.browser = webdriver.Safari()
 
     context.driver.set_window_size(browser_width, browser_height)
-    context.driver.implicitly_wait(4)
+    context.driver.implicitly_wait(1)
     context.app = Application(context.driver)
 
 
 def before_scenario(context, scenario):
     print('\nStarted scenario: ', scenario.name)
+    if "Verify Selecting Products to Cart" not in scenario.name:
+        # print("YEHHHHHH")
+        pass
     browser_init(context)
 
 
@@ -103,6 +126,13 @@ def after_step(context, step):
         print('\nStep failed: ', step)
 
 
-def after_scenario(context, feature):
-    context.driver.delete_all_cookies()
-    context.driver.quit()
+def after_scenario(context, scenario):
+    print(f"scenario : {scenario}")
+    # if "Verify Selecting Products to Cart" not in scenario.name:
+    #
+    #     pass
+    # context.driver.delete_all_cookies()
+    # context.driver.quit()
+
+def after_feature(context, feature):
+    print(f"feature : {feature}")

@@ -4,6 +4,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 class Page:
 
+
+    TEST_URL = 'https://gmail.com'
+
     ROOT_URL = 'https://gettop.us/'
     PRODUCT_CATEGORY_URL = (f"{ROOT_URL}product-category/")
     CATEGORIES = {'macbook', 'iphone', 'ipad', 'accessories'}
@@ -32,6 +35,15 @@ class Page:
         e = self.driver.find_element(*locator)
         e.clear()
         e.send_keys(text)
+
+    def open_url(self, end_url=''):
+        self.driver.get(f'{end_url}')
+
+    def click_link_text(self, link_text):
+        element = self.driver.find_element_by_link_text(link_text)
+        action = ActionChains(self.driver)
+        action.click(on_element=element)
+        action.perform()
 
     def open_page(self, end_url=''):
         self.driver.get(f'{self.base_url}{end_url}')
@@ -63,3 +75,6 @@ class Page:
 
     def go_back(self):
         self.driver.back()
+
+    def log(self, log):
+        print(f"log>{log}")
